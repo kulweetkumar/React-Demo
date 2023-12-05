@@ -1,48 +1,50 @@
 import React from "react";
 import { connect } from 'react-redux';
-import { useHistory} from 'react-router-dom';
-import env from 'env.json';
+import { useHistory } from 'react-router-dom';
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import classNames from "classnames";
+import * as Path from '../../routes/paths';
 
-const Sidebar = ({user, userProfile}) => {
+const Sidebar = ({ user, userProfile }) => {
 
     //history
     const history = useHistory();
 
     const pathname = history.location.pathname.split('/');
- 
- 
+
+
     const filtered = pathname.filter(function (el) {
-        if(el !== ""){
+        if (el !== "") {
             return el;
         }
     });
-     
+
     let path = '/';
- 
-    if(filtered.length>=2){
-         path += filtered[0]+"/"+filtered[1];
+
+    if (filtered.length >= 2) {
+        path += filtered[0] + "/" + filtered[1];
     }
     else {
         path += filtered[0] ?? '';
     }
-    return(
+    return (
         <>
-        <div className="app-sidebar__overlay" data-toggle="sidebar"></div>
-        <aside className="app-sidebar">
-            <div className="app-sidebar__user">
-                <img className="app-sidebar__user-avatar profile-img" src={userProfile && userProfile.image && userProfile.image.original ? env.SERVER_URL+userProfile.image.original : user && user.user && user.user.image &&  user.user.image.original ? env.SERVER_URL+user.user.image.original  : '/assets/images/dummy.png'} alt="User Image" />
-                <div>
-                 <p className="app-sidebar__user-name">{userProfile ? userProfile.first_name  : user && user.user ? user.user.first_name : ''}</p>
-                </div>
-            </div>
-          
-        </aside>
+            <div className="app-sidebar__overlay" data-toggle="sidebar"></div>
+            <aside className="app-sidebar">
+
+                <ul className="app-menu">
+                    <li>
+                        <Link className={classNames("app-menu__item", { 'active': (path === Path.Dashboard) })} to={Path.Dashboard}><i className="app-menu__icon fa fa-dashboard"></i><span className="app-menu__label">Dashboard</span>
+                        </Link>
+                    </li>
+                </ul>
+            </aside>
         </>
     )
 }
 
 const mapStateToPros = (state, props) => {
-    return{
+    return {
         isAuthenticated: state.Auth.isAuthenticated,
         loader: state.persistStore.loader,
         userProfile: state.persistStore.editSetting,
@@ -51,5 +53,5 @@ const mapStateToPros = (state, props) => {
 };
 
 export default connect(
-  mapStateToPros,
+    mapStateToPros,
 )(Sidebar);

@@ -10,9 +10,9 @@ const initialState = {
 //login 
 const authLogin = (state, payload) => {
   const { body } = payload;
-  localStorage.setItem('access_token', body.access_token);
+  localStorage.setItem('access_token', body.token);
   localStorage.setItem('user', JSON.stringify(body));
-  Http.defaults.headers.common.Authorization = `Bearer ${body.access_token}`;
+  Http.defaults.headers.common.Authorization = `Bearer ${body.token}`;
   const stateObj = {
     ...state,
       isAuthenticated: true,

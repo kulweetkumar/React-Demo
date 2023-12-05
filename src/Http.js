@@ -3,11 +3,10 @@ import store from './store';
 import * as actions from './store/actions';
 
 const access_token = localStorage.getItem('access_token');
-axios.defaults.baseURL = `https://app.spottedpr.com/`;
-// axios.defaults.baseURL = `http://localhost:9000/`;
-// axios.defaults.baseURL = `http://192.168.1.210:9000/`;
-axios.defaults.headers.common.secret_key = 'sk_/kck7ha47GViGiig4PnNZOmWR2sFAacvrdUE/aeMNbV/U79AZMrNv8wDCl9EYl+vJQ==';
-axios.defaults.headers.common.publish_key = 'pk_Uq/FGPETv6A4V4bnlCz/UEZjxXwhPTYZ2a0W7A70af2gDdQSZJOHk/ce+69OXfo91W0=';
+// axios.defaults.baseURL = `http://localhost:7658/`;
+axios.defaults.baseURL = `http://192.168.1.142:7658/`;
+axios.defaults.headers.common.secret_key = 'U2FsdGVkX1/RJbPyYVG6OMCBGjA6IPdWJYYlHNS7ido4t8fWoLkw1qNEuAfd2AaY';
+axios.defaults.headers.common.publish_key = 'U2FsdGVkX1+aakRuXf1/qelNETehvEIooh61AYeIhqKnPx+XG5YuQqS7iTtCUXMZ';
 axios.defaults.headers.common.Authorization = `Bearer ${access_token}`;;
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 axios.defaults.headers.post['Access-Control-Allow-Origin'] = true;

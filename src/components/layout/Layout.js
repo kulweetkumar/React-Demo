@@ -7,12 +7,11 @@ import Sidebar from './Sidebar';
 const Layout = (props) => {
 
     const [showSidebar,setShowSidebar] = useState(false);
-   
     const handleToggleSideBar = () => setShowSidebar(!showSidebar);
  
     return(
         <body className={`app sidebar-mini ${showSidebar ? 'sidenav-toggled' : ''}`}>
-            <Helmet titleTemplate={`%s |Demo App`} /> 
+            <Helmet titleTemplate={`Demo App`} /> 
             <Header handleToggleSideBar={handleToggleSideBar} />
             <Sidebar />
             <main class="app-content">

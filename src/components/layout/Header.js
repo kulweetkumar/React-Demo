@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { useHistory, Link } from 'react-router-dom';
-import * as Path from '../../routes/paths';
+import * as Path from 'routes/paths';
 import * as actions from 'store/actions';
 import AuthService from 'services';
 import swal from 'sweetalert';
@@ -49,9 +49,11 @@ const Header = ({user, dispatch, handleToggleSideBar}) => {
         <header className="app-header"><span className="app-header__logo">Demo App</span>
             <span className="app-sidebar__toggle" onClick={handleToggleSideBar} data-toggle="sidebar" aria-label="Hide Sidebar"></span>
             <ul className="app-nav">
-                <li className="dropdown"><a className="app-nav__item" href="#" data-toggle="dropdown" aria-label="Open Profile Menu"><i className="fa fa-user fa-lg"></i></a>
+                <li className="dropdown">
+                    <span className="app-nav__item" href="#" data-toggle="dropdown" aria-label="Open Profile Menu"><i className="fa fa-user fa-lg"></i></span>
                     <ul className="dropdown-menu settings-menu dropdown-menu-right">
                     <li>
+                        <Link  className={classNames("dropdown-item")} to={Path.Profile}><i className="fa fa-user fa-lg"></i> Profile</Link>
                     </li>
                     <li><span className="dropdown-item logout-text"  onClick={handleLogout}><i className="fa fa-sign-out fa-lg"></i> Logout</span></li>
                     </ul>

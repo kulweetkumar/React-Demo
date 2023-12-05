@@ -10,7 +10,7 @@ const App = (props) => {
   return (
 	  	<>
 			<div>
-				<Helmet titleTemplate={`%s | Demo App`} /> 
+				<Helmet titleTemplate={`Demo App`} /> 
 				<Header />
 				<Sidebar />
 				<main class="app-content">

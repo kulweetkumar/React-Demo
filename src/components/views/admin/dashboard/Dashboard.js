@@ -1,20 +1,18 @@
 import React, {useState, useEffect} from "react";
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import * as Path from 'routes/paths';
 import Helmet from 'react-helmet';
 import { List } from 'react-content-loader';
 import AuthService from 'services';
 import swal from 'sweetalert';
 //countUp
-import CountUp from 'react-countup';
 
 const Dashboard = (props) => {
  
     const [sending, setSending] = useState(false);
     const [data, setData] = useState({});
 
-    //get data
+    // get data
     let isMounted = true;
     async function getData() {
         try{
@@ -67,7 +65,17 @@ const Dashboard = (props) => {
 
             {!sending && data &&
                 <div className="row">
-                    Dashboard
+           
+                    <div className="col-md-6 col-lg-3">
+                        <Link >
+                            <div className="widget-small primary coloured-icon"><i className="icon fa fa-users fa-3x"></i>
+                                <div className="info">
+                                    <h4>Users</h4>
+                                    <p><b></b></p>
+                                </div>
+                            </div>
+                        </Link>
+                    </div>
                 </div>
             }
         </>

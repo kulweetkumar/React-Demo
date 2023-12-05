@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 const Auth = (props) => {
   return (
         <>
-				<Helmet titleTemplate={`%s | Demo App`} /> 
+				<Helmet titleTemplate={`Demo App`} /> 
           {React.cloneElement(props.children)}
 		    </>
   );

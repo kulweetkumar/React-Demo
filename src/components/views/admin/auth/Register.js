@@ -8,6 +8,8 @@ import LoadingButton from 'components/shared/LoadingButton';
 import AuthService from 'services';
 import swal from 'sweetalert';
 import * as actions from 'store/actions';
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import classNames from 'classnames';
 
 const renderField = ({
     input,
@@ -91,7 +93,14 @@ const Register = (props) => {
                   <LoadingButton type="submit" className="btn btn-primary btn-block" loading={sending} disabled={submitting}>
                     <i className="fa fa-user-plus fa-lg fa-fw"></i>SIGN UP
                   </LoadingButton>
+                  
                 </div>
+                <div className="form-group btn-container-account">
+                            <Link className={classNames("app")} to={Path.login}>
+                               
+                                <span className="app-menu__label">you have already account? login <i className="fa fa-sign-in fa-lg fa-fw"></i></span>
+                            </Link>
+                        </div>
               </form>
             </div>
           </section>

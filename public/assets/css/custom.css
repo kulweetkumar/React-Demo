@@ -62,7 +62,7 @@
     color: #d41515;
 }
 .react-tabs__tab--selected{
-    border-left-color: #4b9df3 !important;
+    border-left-color: #9ACD32 !important;
     border-bottom: 0 !important;
     background-color: #eee !important;
 }
@@ -95,7 +95,7 @@ img.profile-user-img.img-fluid.img-circle.user-detail-img {
   color: #fff;
 }
 .react-tabs__tab--selected {
-  background-color: #4b9df3 !important;
+  background-color: #9ACD32 !important;
   color: #fff !important;
 }
 .image-item {
@@ -104,11 +104,11 @@ img.profile-user-img.img-fluid.img-circle.user-detail-img {
   padding: 8px;
 }
 .page-item.active .page-link{
-  background-color: #4b9df3!important;
-  border-color: #4b9df3!important;
+  background-color: #9ACD32!important;
+  border-color: #9ACD32!important;
 }
 .page-link{
-  color: #4b9df3!important;
+  color: #9ACD32!important;
 }
 .widget-small .info h4 {
   font-weight: 500 !important;
