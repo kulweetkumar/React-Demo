@@ -9,6 +9,8 @@ import Dashboard from 'components/views/admin/dashboard/Dashboard';
 
 //------------Profile--------------------------//
 import Profile from 'components/views/admin/profile/Profile';
+import User from 'components/views/admin/user/index';
+import CreateUser from 'components/views/admin/user/create';
 
 import NotFound from 'components/NotFound';
 
@@ -40,6 +42,19 @@ const routes = [
 		exact: true,
 		auth: true,
 		component: Profile,
+	},
+	/* users related route */
+	{
+		path: Path.User,
+		exact: true,
+		auth: true,
+		component: User,
+	},
+	{
+		path: Path.UserAdd,
+		exact: true,
+		auth: true,
+		component: CreateUser,
 	},
 	/* setting routes */
 	{

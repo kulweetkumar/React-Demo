@@ -37,6 +37,10 @@ const Sidebar = ({ user, userProfile }) => {
                         <Link className={classNames("app-menu__item", { 'active': (path === Path.Dashboard) })} to={Path.Dashboard}><i className="app-menu__icon fa fa-dashboard"></i><span className="app-menu__label">Dashboard</span>
                         </Link>
                     </li>
+                    <li>
+                        <Link className={classNames("app-menu__item", { 'active': (path === Path.User) })} to={Path.User}><i className="app-menu__icon fa fa-users"></i><span className="app-menu__label">User</span>
+                        </Link>
+                    </li>
                 </ul>
             </aside>
         </>
