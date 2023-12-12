@@ -19,23 +19,49 @@ const Profile = (props) => {
             <div className="row">
                 <div className="col-md-12">
                     <div className="tile">
-                        <div className="row">
-                            <div className="col-md-6">
-                                <h3 className="tile-title">Add User</h3>
+                        <form>
+                            <div className="row">
+                                <div className="col-md-6">
+                                    <div className="form-group">
+                                        <label htmlFor="name">Name</label>
+                                        <input className="form-control" type="text" id="name" placeholder="Enter Name" />
+                                        <small className="form-text text-muted"></small>
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="email">Email</label>
+                                        <input className="form-control" type="email" id="email" placeholder="Enter Email" />
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="email">Password</label>
+                                        <input className="form-control" type="password" id="password" placeholder="Enter Password" />
+                                    </div>
+                                </div>
+                                <div className="col-md-6">
+                                    <div className="form-group">
+                                        <label htmlFor="countryCode">Country Code</label>
+                                        <input className="form-control" type="text" id="countryCode" placeholder="Enter Country Code" />
+                                        <small className="form-text text-muted" id="emailHelp"></small>
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="phone">Phone</label>
+                                        <input className="form-control" type="number" id="phone" placeholder="Enter Phone" />
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="phone">Image</label>
+                                        <input className="form-control" type="file" id="image" placeholder="Enter Phone" />
+                                    </div>
+                                    <div className="d-flex justify-content-end">
+                                        <button className="btn btn-primary" type="submit">Submit</button>
+                                    </div>
+                                </div>
                             </div>
-                            
-
-
-
-
-                        </div>
-                           
+                        </form>
                     </div>
                 </div>
             </div>
         </>
-    )
-}
+    );
+};
 
 const mapStateToProps = (state) => {
     return {

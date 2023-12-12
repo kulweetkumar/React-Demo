@@ -32,9 +32,9 @@ const Profile = (props) => {
                                     <thead>
                                         <tr>
                                             <th>Id</th>
-                                            <th>First Name</th>
-                                            <th>Last Name</th>
+                                            <th>Name</th>
                                             <th>Email</th>
+                                            <th>Phone</th>
                                             <th>Status</th>
                                             <th>Image</th>
                                             <th style={{ minWidth: '122px' }}>Action</th>
