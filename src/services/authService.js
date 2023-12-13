@@ -134,5 +134,34 @@ export function dashboardCount() {
       });
   });
 }
-
+//Create User
+export function createUser(values) {
+  return (dispatch) => new Promise((resolve, reject) => {
+    Http.post(`${apiPath}/signup`, values)
+      .then((res) => resolve(res.data))
+      .catch((err) => {
+        const { status, data } = err.response;
+        const res = {
+          status,
+          data,
+        };
+        return reject(res);
+      });
+  });
+}
+// get user list 
+export function getUser() {
+  return (dispatch) => new Promise((resolve, reject) => {
+    Http.get(`${apiPath}/getuser`)
+      .then((res) => resolve(res.data))
+      .catch((err) => {
+        const { status, data } = err.response;
+        const res = {
+          status,
+          data,
+        };
+        return reject(res);
+      });
+  });
+}
 //cms

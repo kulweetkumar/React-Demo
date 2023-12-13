@@ -1,13 +1,58 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
-import { Link } from "react-router-dom/cjs/react-router-dom.min";
-import classNames from "classnames";
-import * as Path from '../../../../routes/paths';
+import AuthService from 'services';
+import swal from 'sweetalert';
+import { useHistory } from 'react-router-dom';
+import * as Path from 'routes/paths';
+import { Field, reduxForm, reset } from 'redux-form';
+import LoadingButton from 'components/shared/LoadingButton';
 
-const Profile = (props) => {
-    let path = '/';
+const User = (props) => {
+    const { handleSubmit, submitting } = props;
+    const [data, setData] = useState({});
+    const [sending, setSending] = useState(false);
+    const history = useHistory();
+    const handleChange = (e) => {
+        setData({
+            ...data,
+            [e.target.name]: e.target.type === 'file' ? e.target.files : e.target.value
+        });
+    };
+    const handleSubmit_ = async () => {
+        try {
+            const formData = new FormData();
+            let query = {
+                image: data ? data.image[0] : '',
+                name: data ? data.name : '',
+                email: data ? data.email : '',
+                country_code: data ? data.country_code : '',
+                phone: data ? data.phone : '',
+                password: data ? data.password : '',
+                role: 2,
+                device_token: "device_token",
+                device_type: 1,
+            };
 
+            Object.keys(query).forEach(key => {
+                formData.append(key, query[key]);
+            });
+            await props.dispatch(AuthService.createUser(formData)).then((res) => {
+                setSending(false);
+                swal("Success!", res.message, "success");
+                // props.dispatch(reset('User'));
+                history.push(Path.User);
+            });
+
+        } catch (err) {
+            console.log(err);
+            setSending(false);
+            if (err && err.data && err.data.message) {
+                swal("Oops!", err.data.message, "error");
+                history.push(Path.UserAdd);
+            }
+        }
+    }
     return (
         <>
             <Helmet title="User" />
@@ -19,39 +64,45 @@ const Profile = (props) => {
             <div className="row">
                 <div className="col-md-12">
                     <div className="tile">
-                        <form>
+                        <form onSubmit={handleSubmit(handleSubmit_)}>
                             <div className="row">
                                 <div className="col-md-6">
                                     <div className="form-group">
                                         <label htmlFor="name">Name</label>
-                                        <input className="form-control" type="text" id="name" placeholder="Enter Name" />
+                                        <input className="form-control" type="text" id="name" name="name" onChange={(e) => handleChange(e)} placeholder="Enter Name" />
                                         <small className="form-text text-muted"></small>
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="email">Email</label>
-                                        <input className="form-control" type="email" id="email" placeholder="Enter Email" />
+                                        <input className="form-control" name="email" onChange={(e) => handleChange(e)} type="email" id="email" placeholder="Enter Email" />
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="email">Password</label>
-                                        <input className="form-control" type="password" id="password" placeholder="Enter Password" />
+                                        <input className="form-control" name="password" onChange={(e) => handleChange(e)} type="password" id="password" placeholder="Enter Password" />
                                     </div>
                                 </div>
                                 <div className="col-md-6">
                                     <div className="form-group">
                                         <label htmlFor="countryCode">Country Code</label>
-                                        <input className="form-control" type="text" id="countryCode" placeholder="Enter Country Code" />
+                                        <input className="form-control" name="country_code" onChange={(e) => handleChange(e)} type="text" id="countryCode" placeholder="Enter Country Code" />
                                         <small className="form-text text-muted" id="emailHelp"></small>
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="phone">Phone</label>
-                                        <input className="form-control" type="number" id="phone" placeholder="Enter Phone" />
+                                        <input className="form-control" name="phone" onChange={(e) => handleChange(e)} type="number" id="phone" placeholder="Enter Phone" />
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="phone">Image</label>
-                                        <input className="form-control" type="file" id="image" placeholder="Enter Phone" />
+                                        <input className="form-control" onChange={(e) => handleChange(e)} type="file" id="file" name="image" placeholder="Select Image" />
                                     </div>
                                     <div className="d-flex justify-content-end">
-                                        <button className="btn btn-primary" type="submit">Submit</button>
+                                        <LoadingButton
+                                            type="submit"
+                                            className="btn btn-primary"
+                                            loading={sending}
+                                            disabled={submitting}>
+                                            Submit
+                                        </LoadingButton>
                                     </div>
                                 </div>
                             </div>
@@ -62,19 +113,18 @@ const Profile = (props) => {
         </>
     );
 };
-
 const mapStateToProps = (state) => {
     return {
         isAuthenticated: state.Auth.isAuthenticated,
         user: state.Auth,
     }
 };
-
 function mapDispatchToProps(dispatch) {
     return { dispatch };
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Profile);
+const UserForm = reduxForm({
+    form: 'User',
+    enableReinitialize: true,
+})(User);
+export default connect(mapStateToProps, mapDispatchToProps)(UserForm);

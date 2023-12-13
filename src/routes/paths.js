@@ -6,3 +6,4 @@ export const Dashboard = '/admin/dashboard';
 export const Profile = '/admin/profile';
 export const User = '/admin/user';
 export const UserAdd = '/admin/user/create';
+export const UserStore = '/admin/user/store';
