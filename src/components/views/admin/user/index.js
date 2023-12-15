@@ -6,29 +6,55 @@ import classNames from "classnames";
 import * as Path from 'routes/paths';
 import AuthService from 'services';
 import { useHistory } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faTrash, faEye } from '@fortawesome/free-solid-svg-icons';
+import SweetAlert from 'react-bootstrap-sweetalert';
+import swal from 'sweetalert';
+
 const Profile = (props) => {
+
     const history = useHistory();
     const [data, setUserData] = useState([]);
+    const [isAlertVisible, setAlertVisible] = useState(false);
+    const [userIdToDelete, setUserIdToDelete] = useState(null);
 
-    useEffect(() => {
-        const fetchData = async () => {
+    const showAlert = (id) => {
+        setUserIdToDelete(id);
+        setAlertVisible(true);
+    };  
+    const fetchData = async () => {
+        try {
+            const response = await props.dispatch(AuthService.getUser());
+            setUserData(response.body);
+            history.push(Path.User);
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+            history.push(Path.User);
+        }
+    };
+    const hideAlert = () => {
+        setAlertVisible(false);
+    };
+    const deleteUser = async() => {
             try {
-                const response = await props.dispatch(AuthService.getUser());
-                setUserData(response.body);
-                history.push(Path.User);
-            } catch (error) {
-                console.error('Error fetching user data:', error);
+                const response = await props.dispatch(AuthService.deleteUser(userIdToDelete));
+                hideAlert()
+                fetchData()
+            } catch (err) {
+                swal("Oops!", err.data.message, "error");
                 history.push(Path.User);
             }
-        };
+    };
 
+    useEffect(() => {
         fetchData();
-    }, [history]);
-
+      }, [history]);
+   
 
 
     return (
         <>
+
             <Helmet title="User" />
             <div className="app-title">
                 <div>
@@ -46,6 +72,8 @@ const Profile = (props) => {
                                 <Link className={classNames("btn btn-primary", { 'active': (Path === Path.UserAdd) })} to={Path.UserAdd}><i className="fa fa-user-plus"></i> User</Link>
                             </div>
                         </div>
+
+
                         <div className="table-responsive">
                             <table className="table table-striped">
                                 <thead>
@@ -62,21 +90,53 @@ const Profile = (props) => {
                                 <tbody>
                                     {data.map((index, value) => (
                                         <tr>
-                                            <td>{value+1}</td>
+                                            <td>{value + 1}</td>
                                             <td>{index.name}</td>
                                             <td>{index.email}</td>
                                             <td>{index.country_code + index.phone}</td>
                                             <td>{index.status}</td>
-                                            <td><img src={index.image} style={{height:"70px",width:"70px"}}/></td>
-                                            <td style={{ minWidth: '122px' }}>Action</td>
+                                            <td><img src={index.image} style={{ height: "70px", width: "70px" }} /></td>
+                                            <td >
+                                                <Link title="Edit" to={`${Path.UserEdit}/${index.id}`}>
+
+                                                    <FontAwesomeIcon icon={faEdit} style={{ 'marginRight': '10px', 'height': "16px" }} />
+                                                </Link>
+                                                <Link title="View" to={`${Path.UserView}/${index.id}`}>
+                                                    <FontAwesomeIcon icon={faEye} style={{ marginRight: '10px', height: '16px' }} />
+                                                </Link>
+                                                <Link
+                                                    title="Delete"
+                                                    onClick={() => showAlert(index.id)}
+                                                >
+                                                    <FontAwesomeIcon icon={faTrash} style={{ 'height': '16px' }} />
+                                                </Link>
+
+                                            </td>
                                         </tr>
                                     ))}
+                                    {isAlertVisible && (
+                                        <SweetAlert
+                                            title="Are you sure?"
+                                            warning
+                                            showCancel
+                                            confirmBtnText="Yes, delete it!"
+                                            confirmBtnBsStyle="danger"
+                                            cancelBtnText="Cancel"
+                                            onConfirm={deleteUser}
+                                            onCancel={hideAlert}
+                                            customClass="custom-sweet-alert" 
+
+                                        >
+                                            You won't be able to revert this!
+                                        </SweetAlert>
+                                    )}
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
+
         </>
     )
 }

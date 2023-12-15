@@ -7,7 +7,7 @@ import { useHistory } from 'react-router-dom';
 import * as Path from 'routes/paths';
 import { Field, reduxForm, reset } from 'redux-form';
 import LoadingButton from 'components/shared/LoadingButton';
-const User = (props) => {
+const UserEdit = (props) => {
     const { handleSubmit, submitting } = props;
     const [data, setData] = useState({});
     const [sending, setSending] = useState(false);
@@ -36,7 +36,7 @@ const User = (props) => {
             Object.keys(query).forEach(key => {
                 formData.append(key, query[key]);
             });
-            await props.dispatch(AuthService.createUser(formData)).then((res) => {
+            await props.dispatch(AuthService.createEdit(formData)).then((res) => {
                 setSending(false);
                 swal("Success!", res.message, "success");
                 history.push(Path.User);
@@ -124,5 +124,5 @@ function mapDispatchToProps(dispatch) {
 const UserForm = reduxForm({
     form: 'User',
     enableReinitialize: true,
-})(User);
+})(UserEdit);
 export default connect(mapStateToProps, mapDispatchToProps)(UserForm);

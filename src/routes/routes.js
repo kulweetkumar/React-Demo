@@ -11,6 +11,7 @@ import Dashboard from 'components/views/admin/dashboard/Dashboard';
 import Profile from 'components/views/admin/profile/Profile';
 import User from 'components/views/admin/user/index';
 import CreateUser from 'components/views/admin/user/create';
+import ViewUser from 'components/views/admin/user/UserView';
 
 import NotFound from 'components/NotFound';
 
@@ -56,6 +57,31 @@ const routes = [
 		auth: true,
 		component: CreateUser,
 	},
+	{
+		path: Path.UserView,
+		exact: true,
+		auth: true,
+		component: ViewUser,
+	},
+	{
+		path: Path.user_view,
+		exact: true,
+		auth: true,
+		component: ViewUser,
+	},
+	{
+		path: Path.userDelete,
+		exact: true,
+		auth: true,
+		component: ViewUser,
+	},
+	{
+		path: Path.user_delete,
+		exact: true,
+		auth: true,
+		component: User,
+	},
+	
 	/* setting routes */
 	{
 		path: '/',

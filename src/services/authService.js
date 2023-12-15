@@ -164,4 +164,35 @@ export function getUser() {
       });
   });
 }
+// get user detail
+export function getUserDetail(values) {
+  return (dispatch) => new Promise((resolve, reject) => {
+    Http.get(`${apiPath}/getUserDetail?id=${values}`)
+      .then((res) => resolve(res.data))
+      .catch((err) => {
+        const { status, data } = err.response;
+        const res = {
+          status,
+          data,
+        };
+        return reject(res);
+      });
+  });
+}
+// delete user 
+export function deleteUser(values) {
+  return (dispatch) => new Promise((resolve, reject) => {
+    Http.delete(`${apiPath}/delete_user/${values}`)
+      .then((res) => resolve(res.data))
+      .catch((err) => {
+        const { status, data } = err.response;
+        const res = {
+          status,
+          data,
+        };
+        return reject(res);
+      });
+  });
+}
+
 //cms
