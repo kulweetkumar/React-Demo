@@ -9,6 +9,7 @@ export const User = '/admin/user';
 export const UserAdd = '/admin/user/create';
 export const UserStore = '/admin/user/store';
 export const UserEdit = '/admin/user/edit';
+export const User_edit = '/admin/user/edit/:id';
 export const UserView = '/admin/user/view';
 export const user_view = '/admin/user/view/:id';
 export const userDelete = '/admin/user/delete';

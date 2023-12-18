@@ -12,6 +12,7 @@ import Profile from 'components/views/admin/profile/Profile';
 import User from 'components/views/admin/user/index';
 import CreateUser from 'components/views/admin/user/create';
 import ViewUser from 'components/views/admin/user/UserView';
+import EditUser from 'components/views/admin/user/edit';
 
 import NotFound from 'components/NotFound';
 
@@ -81,6 +82,22 @@ const routes = [
 		auth: true,
 		component: User,
 	},
+
+	{
+		path: Path.UserEdit,
+		exact: true,
+		auth: true,
+		component: EditUser,
+	},
+	{
+		path: Path.User_edit,
+		exact: true,
+		auth: true,
+		component: EditUser,
+	},
+
+
+	
 	
 	/* setting routes */
 	{

@@ -194,5 +194,21 @@ export function deleteUser(values) {
       });
   });
 }
+export function updateStatus(values) {
+  return (dispatch) => new Promise((resolve, reject) => {
+    Http.post(`${apiPath}/update_status`,values)
+      .then((res) => resolve(res.data))
+      .catch((err) => {
+        const { status, data } = err.response;
+        const res = {
+          status,
+          data,
+        };
+        return reject(res);
+      });
+  });
+}
+
+
 
 //cms

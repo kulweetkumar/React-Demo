@@ -16,12 +16,21 @@ const Profile = (props) => {
     const history = useHistory();
     const [data, setUserData] = useState([]);
     const [isAlertVisible, setAlertVisible] = useState(false);
+    const [isStatusVisible, setIsStatusVisible] = useState(false);
     const [userIdToDelete, setUserIdToDelete] = useState(null);
+    const [UserIdToStatus, setUserIdToStatus] = useState({});
 
     const showAlert = (id) => {
         setUserIdToDelete(id);
         setAlertVisible(true);
-    };  
+    };
+    const showStatusAlert = (id, status) => {
+        let query = {
+            id: id, status: status
+        }
+        setUserIdToStatus(query);
+        setIsStatusVisible(true);
+    };
     const fetchData = async () => {
         try {
             const response = await props.dispatch(AuthService.getUser());
@@ -34,22 +43,40 @@ const Profile = (props) => {
     };
     const hideAlert = () => {
         setAlertVisible(false);
+        setIsStatusVisible(false)
     };
-    const deleteUser = async() => {
-            try {
-                const response = await props.dispatch(AuthService.deleteUser(userIdToDelete));
+    const deleteUser = async () => {
+        try {
+            const response = await props.dispatch(AuthService.deleteUser(userIdToDelete));
+            hideAlert()
+            fetchData()
+        } catch (err) {
+            swal("Oops!", err.data.message, "error");
+            history.push(Path.User);
+        }
+    };
+    const handleStatusChange = async () => {
+        try {
+            await props.dispatch(AuthService.updateStatus(UserIdToStatus)).then((res) => {
+                swal("Success!", res.message, "success");
+                fetchData();
                 hideAlert()
-                fetchData()
-            } catch (err) {
+            });
+        } catch (err) {
+            console.log(err);
+            if (err && err.data && err.data.message) {
                 swal("Oops!", err.data.message, "error");
-                history.push(Path.User);
+                history.push(Path.UserAdd);
             }
-    };
+        }
+    }
+
+
 
     useEffect(() => {
         fetchData();
-      }, [history]);
-   
+    }, [history]);
+
 
 
     return (
@@ -94,11 +121,27 @@ const Profile = (props) => {
                                             <td>{index.name}</td>
                                             <td>{index.email}</td>
                                             <td>{index.country_code + index.phone}</td>
-                                            <td>{index.status}</td>
+                                            <td>
+                                                {index.status === 1 ? (
+                                                    <Link className="btn btn-primary"
+                                                        title="Status"
+                                                        onClick={() => showStatusAlert(index.id, 0)}
+                                                    >
+                                                        Active
+                                                    </Link>
+                                                ) : (
+                                                    <Link className="btn btn-secondary"
+                                                        title="Status"
+                                                        onClick={() => showStatusAlert(index.id, 1)}
+                                                    >
+                                                        In-Active
+                                                    </Link>
+
+                                                )}
+                                            </td>
                                             <td><img src={index.image} style={{ height: "70px", width: "70px" }} /></td>
                                             <td >
                                                 <Link title="Edit" to={`${Path.UserEdit}/${index.id}`}>
-
                                                     <FontAwesomeIcon icon={faEdit} style={{ 'marginRight': '10px', 'height': "16px" }} />
                                                 </Link>
                                                 <Link title="View" to={`${Path.UserView}/${index.id}`}>
@@ -110,7 +153,6 @@ const Profile = (props) => {
                                                 >
                                                     <FontAwesomeIcon icon={faTrash} style={{ 'height': '16px' }} />
                                                 </Link>
-
                                             </td>
                                         </tr>
                                     ))}
@@ -124,10 +166,25 @@ const Profile = (props) => {
                                             cancelBtnText="Cancel"
                                             onConfirm={deleteUser}
                                             onCancel={hideAlert}
-                                            customClass="custom-sweet-alert" 
+                                            customClass="custom-sweet-alert"
 
                                         >
                                             You won't be able to revert this!
+                                        </SweetAlert>
+                                    )}
+                                    {isStatusVisible && (
+                                        <SweetAlert
+                                            title="Are you sure?
+                                            You want to changes user status"
+                                            warning
+                                            showCancel
+                                            confirmBtnText="Yes, Change It!"
+                                            confirmBtnBsStyle="danger"
+                                            cancelBtnText="Cancel"
+                                            onConfirm={handleStatusChange}
+                                            onCancel={hideAlert}
+                                            customClass="custom-sweet-alert"
+                                        >
                                         </SweetAlert>
                                     )}
                                 </tbody>
@@ -136,22 +193,18 @@ const Profile = (props) => {
                     </div>
                 </div>
             </div>
-
         </>
     )
 }
-
 const mapStateToProps = (state) => {
     return {
         isAuthenticated: state.Auth.isAuthenticated,
         user: state.Auth,
     }
 };
-
 function mapDispatchToProps(dispatch) {
     return { dispatch };
 }
-
 export default connect(
     mapStateToProps,
     mapDispatchToProps
