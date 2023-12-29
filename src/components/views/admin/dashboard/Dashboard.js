@@ -71,7 +71,7 @@ const Dashboard = (props) => {
                             <div className="widget-small primary coloured-icon"><i className="icon fa fa-users fa-3x"></i>
                                 <div className="info">
                                     <h4>Users</h4>
-                                    <p><b></b></p>
+                                    <p><b>{data.userCount}</b></p>
                                 </div>
                             </div>
                         </Link>

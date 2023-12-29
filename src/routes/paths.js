@@ -14,3 +14,5 @@ export const UserView = '/admin/user/view';
 export const user_view = '/admin/user/view/:id';
 export const userDelete = '/admin/user/delete';
 export const user_delete = '/admin/user/delete/:id';
+export const Category = '/admin/category';
+export const Chat = '/admin/chat';

@@ -10,54 +10,45 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash, faEye } from '@fortawesome/free-solid-svg-icons';
 import SweetAlert from 'react-bootstrap-sweetalert';
 import swal from 'sweetalert';
+import { deleteCategory } from 'services/authService';
 
-const Profile = (props) => {
+const Category = (props) => {
 
     const history = useHistory();
-    const [data, setUserData] = useState({ profile: [] });
+    const [data, setcategoryData] = useState([]);
     const [isAlertVisible, setAlertVisible] = useState(false);
     const [isStatusVisible, setIsStatusVisible] = useState(false);
     const [userIdToDelete, setUserIdToDelete] = useState(null);
     const [UserIdToStatus, setUserIdToStatus] = useState({});
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
+
     const showAlert = (id) => {
         setUserIdToDelete(id);
         setAlertVisible(true);
     };
     const showStatusAlert = (id, status) => {
         let query = {
-            id: id, status: status, model: "users"
+            id: id, status: status,model:"categories"
         }
         setUserIdToStatus(query);
         setIsStatusVisible(true);
     };
-    const fetchData = async (page) => {
+    const fetchData = async () => {
         try {
-            let queryData = {
-                page: page ? page : 1,
-                limit: 15
-            }
-            const response = await props.dispatch(AuthService.getUser(queryData));
-            setUserData(response.body);
-            setTotalPages(response.body.totalPages);
-            setCurrentPage(response.body.currentPage);
-            history.push(Path.User);
+            const response = await props.dispatch(AuthService.getCategory());
+            setcategoryData(response.body);
+            // history.push(Path.User);
         } catch (error) {
             console.error('Error fetching user data:', error);
-            history.push(Path.User);
+            // history.push(Path.User);
         }
-    };
-    const handlePageChange = (page) => {
-        fetchData(page);
     };
     const hideAlert = () => {
         setAlertVisible(false);
         setIsStatusVisible(false)
     };
-    const deleteUser = async () => {
+    const deleteCategory = async () => {
         try {
-            const response = await props.dispatch(AuthService.deleteUser(userIdToDelete));
+            const response = await props.dispatch(AuthService.deleteCategory(userIdToDelete));
             hideAlert()
             fetchData()
         } catch (err) {
@@ -80,71 +71,18 @@ const Profile = (props) => {
             }
         }
     }
-
     useEffect(() => {
-        fetchData(1);
+        fetchData();
     }, [history]);
-    let NewData = data.profile;
-    const itemsPerPage = 15; // Adjust the page size based on your requirements
 
 
-    
-    const Pagination = ({ totalPages, currentPage, handlePageChange }) => {
-        const showPageNumbers = 3;
-      
-        const renderPageNumbers = () => {
-          const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
-      
-          if (totalPages <= showPageNumbers) {
-            return pages.map((page) => (
-              <button
-                key={page}
-                className={classNames("btn", { active: page === currentPage })}
-                onClick={() => handlePageChange(page)}
-              >
-                {page}
-              </button>
-            ));
-          } else {
-            const startPage = Math.max(1, currentPage - 1);
-            const endPage = Math.min(startPage + showPageNumbers - 1, totalPages);
-      
-            return (
-              <>
-                {currentPage > 1 && (
-                  <button className="btn" onClick={() => handlePageChange(currentPage - 1)}>
-                    Previous
-                  </button>
-                )}
-                {pages.slice(startPage - 1, endPage).map((page) => (
-                  <button
-                    key={page}
-                    className={classNames("btn", { active: page === currentPage })}
-                    onClick={() => handlePageChange(page)}
-                  >
-                    {page}
-                  </button>
-                ))}
-                {currentPage < totalPages && (
-                  <button className="btn" onClick={() => handlePageChange(currentPage + 1)}>
-                    Next
-                  </button>
-                )}
-              </>
-            );
-          }
-        };
-      
-        return <div className="pagination">{renderPageNumbers()}</div>;
-      };
-      
     return (
         <>
 
             <Helmet title="User" />
             <div className="app-title">
                 <div>
-                    <h1><i className="fa fa-th-list"></i> Users</h1>
+                    <h1><i className="fa fa-th-list"></i> Categories</h1>
                 </div>
             </div>
             <div className="row">
@@ -152,7 +90,7 @@ const Profile = (props) => {
                     <div className="tile">
                         <div className="row">
                             <div className="col-md-6">
-                                <h3 className="tile-title">User Listing</h3>
+                                <h3 className="tile-title">Category Listing</h3>
                             </div>
                             <div className="col-md-6 text-right">
                                 <Link className={classNames("btn btn-primary", { 'active': (Path === Path.UserAdd) })} to={Path.UserAdd}><i className="fa fa-user-plus"></i> User</Link>
@@ -166,21 +104,16 @@ const Profile = (props) => {
                                     <tr>
                                         <th>Id</th>
                                         <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Phone</th>
                                         <th>Status</th>
                                         <th>Image</th>
                                         <th style={{ minWidth: '122px' }}>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-
-                                    {NewData.map((index, value) => (
-                                        <tr key={index.id}>
-                                            <td>{(currentPage - 1) * itemsPerPage + value + 1}</td>
+                                {data.map((index, value) => (
+                                        <tr>
+                                            <td>{value + 1}</td>
                                             <td>{index.name}</td>
-                                            <td>{index.email}</td>
-                                            <td>{index.country_code + index.phone}</td>
                                             <td>
                                                 {index.status === 1 ? (
                                                     <Link className="btn btn-primary"
@@ -224,7 +157,7 @@ const Profile = (props) => {
                                             confirmBtnText="Yes, delete it!"
                                             confirmBtnBsStyle="danger"
                                             cancelBtnText="Cancel"
-                                            onConfirm={deleteUser}
+                                            onConfirm={deleteCategory}
                                             onCancel={hideAlert}
                                             customClass="custom-sweet-alert"
 
@@ -235,7 +168,7 @@ const Profile = (props) => {
                                     {isStatusVisible && (
                                         <SweetAlert
                                             title="Are you sure?
-                                            You want to changes user status"
+                                            You want to changes Category status"
                                             warning
                                             showCancel
                                             confirmBtnText="Yes, Change It!"
@@ -247,12 +180,10 @@ const Profile = (props) => {
                                         >
                                         </SweetAlert>
                                     )}
+                                   
+                                    
                                 </tbody>
                             </table>
-                            <div className="pagination">
-                            <Pagination totalPages={totalPages} currentPage={currentPage} handlePageChange={handlePageChange} />
-
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -272,4 +203,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(Profile);
+)(Category);

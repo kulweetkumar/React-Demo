@@ -122,7 +122,7 @@ export function fileUpload(values) {
 //dashboard
 export function dashboardCount() {
   return (dispatch) => new Promise((resolve, reject) => {
-    Http.get(`${apiPath}/dashboard/get_data_count`)
+    Http.get(`${apiPath}/get_data_count`)
       .then((res) => resolve(res.data))
       .catch((err) => {
         const { status, data } = err.response;
@@ -150,9 +150,11 @@ export function createUser(values) {
   });
 }
 // get user list 
-export function getUser() {
+export function getUser(values) {
   return (dispatch) => new Promise((resolve, reject) => {
-    Http.get(`${apiPath}/getuser`)
+    const page = parseInt(values.page, 10) || 1;
+    const limit = parseInt(values.limit, 10) || 10;
+    Http.get(`${apiPath}/getuser?page=${page}&limit=${limit}`)
       .then((res) => resolve(res.data))
       .catch((err) => {
         const { status, data } = err.response;
@@ -194,6 +196,22 @@ export function deleteUser(values) {
       });
   });
 }
+export function deleteCategory(values) {
+  return (dispatch) => new Promise((resolve, reject) => {
+    Http.delete(`${apiPath}/delete_category/${values}`)
+      .then((res) => resolve(res.data))
+      .catch((err) => {
+        const { status, data } = err.response;
+        const res = {
+          status,
+          data,
+        };
+        return reject(res);
+      });
+  });
+}
+
+
 export function updateStatus(values) {
   return (dispatch) => new Promise((resolve, reject) => {
     Http.post(`${apiPath}/update_status`,values)
@@ -209,6 +227,19 @@ export function updateStatus(values) {
   });
 }
 
-
+export function getCategory(values) {
+  return (dispatch) => new Promise((resolve, reject) => {
+    Http.get(`${apiPath}/getcategory`)
+      .then((res) => resolve(res.data))
+      .catch((err) => {
+        const { status, data } = err.response;
+        const res = {
+          status,
+          data,
+        };
+        return reject(res);
+      });
+  });
+}
 
 //cms

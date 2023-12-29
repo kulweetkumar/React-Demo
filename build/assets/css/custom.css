@@ -1,0 +1,149 @@
+/*---------------loading button----------------------*/
+
+.btn-spinner {
+    pointer-events: none;
+    cursor: default;
+    color: transparent;
+    position: relative;
+  }
+  
+  .btn-spinner::after,
+  .btn-spinner::before {
+    /* content: ""; */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-top: -0.25rem;
+    margin-left: -0.75rem;
+    border-radius: 100%;
+    border: 0.3rem solid transparent;
+  }
+  
+  .btn-spinner::before {
+    border-color: rgba(0, 0, 0, 0.15);
+  }
+  
+  .btn-spinner::after {
+    border-color: white transparent transparent;
+    -webkit-animation: btn-spin 0.6s linear;
+    animation: btn-spin 0.6s linear;
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+  }
+  
+  @-webkit-keyframes btn-spin {
+    from {
+      transform: rotate(0);
+    }
+  
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  @keyframes btn-spin {
+    from {
+      transform: rotate(0);
+    }
+  
+    to {
+      transform: rotate(360deg);
+    }
+  }
+/*--------------- End loading button----------------------*/
+.profile-img { 
+    height: 40px;
+    width: 40px;
+}
+
+.errorMessage{
+    color: #d41515;
+}
+.react-tabs__tab--selected{
+    border-left-color: #9ACD32 !important;
+    border-bottom: 0 !important;
+    background-color: #eee !important;
+}
+.react-tabs__tab-list {
+    border-bottom:0px !important; 
+    margin: 0px !important; 
+    cursor: pointer !important;
+}
+.fileContainer .chooseFileButton{
+    padding : 0px !important;
+    background: none !important;
+    border-radius:none !important;
+}
+.logout-text{
+    cursor: pointer !important;
+}
+.profile-image-size {
+  width: 45px;
+  height: 45px;
+}
+img.profile-user-img.img-fluid.img-circle.user-detail-img {
+  height: 154px;
+  width: 154px;
+}
+.back-button {
+  float: right;
+  margin-top: 10px;
+}
+.btn.btn-warning.btn-sm {
+  color: #fff;
+}
+.react-tabs__tab--selected {
+  background-color: #9ACD32 !important;
+  color: #fff !important;
+}
+.image-item {
+  margin-left: 20px;
+  margin-bottom: 20px;
+  padding: 8px;
+}
+.page-item.active .page-link{
+  background-color: #9ACD32!important;
+  border-color: #9ACD32!important;
+}
+.page-link{
+  color: #9ACD32!important;
+}
+.widget-small .info h4 {
+  font-weight: 500 !important;
+  font-size: 12px !important;
+}
+p.help.is-danger {
+  color: #b90e0e;
+  margin-bottom: 0px;
+}
+.page-item.active .page-link {
+  color:#fff !important
+}
+.main-loader {
+  margin-top: 113px;
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -25px 0 0 -25px;
+}
+.priorityStyle {
+  font-size: 15px;
+  font-weight: 500;
+  text-align: center;
+}
+.row.main-image-div .col-lg-4 {
+  padding-bottom: 10px;
+}
+.banner-btn{
+  padding: 4px !important;
+}
+.form-group.btn-container-account {
+  text-align: right;
+  margin: 2px;
+  padding: 7px;
+  font-size: 15px;
+}

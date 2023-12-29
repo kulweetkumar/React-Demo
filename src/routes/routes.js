@@ -13,6 +13,9 @@ import User from 'components/views/admin/user/index';
 import CreateUser from 'components/views/admin/user/create';
 import ViewUser from 'components/views/admin/user/UserView';
 import EditUser from 'components/views/admin/user/edit';
+import Category from 'components/views/admin/category/index';
+import Chat from 'components/views/admin/chat/index';
+
 
 import NotFound from 'components/NotFound';
 
@@ -95,10 +98,64 @@ const routes = [
 		auth: true,
 		component: EditUser,
 	},
+	// category module start here 
+	{
+		path: Path.Category,
+		exact: true,
+		auth: true,
+		component: Category,
+	},
+	{
+		path: Path.UserAdd,
+		exact: true,
+		auth: true,
+		component: CreateUser,
+	},
+	{
+		path: Path.UserView,
+		exact: true,
+		auth: true,
+		component: ViewUser,
+	},
+	{
+		path: Path.user_view,
+		exact: true,
+		auth: true,
+		component: ViewUser,
+	},
+	{
+		path: Path.userDelete,
+		exact: true,
+		auth: true,
+		component: ViewUser,
+	},
+	{
+		path: Path.user_delete,
+		exact: true,
+		auth: true,
+		component: User,
+	},
 
-
+	{
+		path: Path.UserEdit,
+		exact: true,
+		auth: true,
+		component: EditUser,
+	},
+	{
+		path: Path.User_edit,
+		exact: true,
+		auth: true,
+		component: EditUser,
+	},
 	
-	
+	// chat module start here 
+	{
+		path: Path.Chat,
+		exact: true,
+		auth: true,
+		component: Chat,
+	},
 	/* setting routes */
 	{
 		path: '/',
